@@ -54,7 +54,14 @@ function AuthProvider({ children }: AuthProviderData) {
       const FORCE_VERIFY = true;
       const STATE = generateRandom(30);
 
-      const authUrl = `${twitchEndpoints.authorization}?${CLIENT_ID}&${REDIRECT_URI}&${RESPONSE_TYPE}&${SCOPE}&${FORCE_VERIFY}&${STATE}`;
+      const authUrl =
+        twitchEndpoints.authorization +
+        `?client_id=${CLIENT_ID}` +
+        `&redirect_uri=${REDIRECT_URI}` +
+        `&response_type=${RESPONSE_TYPE}` +
+        `&scope=${SCOPE}` +
+        `&force_verify=${FORCE_VERIFY}` +
+        `&state=${STATE}`;
 
       const authResponse = await startAsync({ authUrl });
 
