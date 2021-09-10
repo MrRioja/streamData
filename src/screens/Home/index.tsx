@@ -9,6 +9,7 @@ import { api } from "../../services/api";
 
 import {
   Container,
+  Content,
   Header,
   UserInfo,
   Avatar,
@@ -143,113 +144,116 @@ export function Home() {
         scale: 0.9,
       }}
     >
-      <Header>
-        <UserInfo>
-          <Avatar source={{ uri: user.profile_image_url }} />
+      <Content>
+        <Header>
+          <UserInfo>
+            <Avatar source={{ uri: user.profile_image_url }} />
 
-          <UserInfoText>Olá, </UserInfoText>
-          <UserInfoText style={{ fontFamily: theme.fonts.bold }}>
-            {user.display_name}
-          </UserInfoText>
-        </UserInfo>
+            <UserInfoText>Olá, </UserInfoText>
+            <UserInfoText style={{ fontFamily: theme.fonts.bold }}>
+              {user.display_name}
+            </UserInfoText>
+          </UserInfo>
 
-        <SignOutButton onPress={signOut}>
-          {isLoggingOut === true ? (
-            <ActivityIndicator size={25} color={theme.colors.white} />
-          ) : (
-            <Feather name="power" size={24} color={theme.colors.white} />
-          )}
-        </SignOutButton>
-      </Header>
+          <SignOutButton onPress={signOut}>
+            {isLoggingOut === true ? (
+              <ActivityIndicator size={25} color={theme.colors.white} />
+            ) : (
+              <Feather name="power" size={24} color={theme.colors.white} />
+            )}
+          </SignOutButton>
+        </Header>
 
-      <UserFollowedStreams>
-        <UserFollowedStreamsTitle>
-          Canais que você segue
-        </UserFollowedStreamsTitle>
+        <UserFollowedStreams>
+          <UserFollowedStreamsTitle>
+            Canais que você segue
+          </UserFollowedStreamsTitle>
 
-        <FlatList
-          data={
-            !isLoadingUserFollowedStreams
-              ? userFollowedStreams
-              : [
-                  { id: "1" } as UserFollowedStreamsFormatted,
-                  { id: "2" } as UserFollowedStreamsFormatted,
-                ]
-          }
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          maxToRenderPerBatch={4}
-          initialNumToRender={4}
-          getItemLayout={(_, index) => ({
-            length: 276,
-            offset: 276 * index,
-            index,
-          })}
-          contentContainerStyle={{
-            paddingLeft: 24,
-            paddingRight: 12,
-          }}
-          renderItem={({ item }) => (
-            <UserFollowedStreamCard
-              avatarUrl={item.user_avatar_url}
-              streamer_login={item.user_login}
-              streamer_name={item.user_name}
-              thumbnailUrl={item.thumbnail_url}
-              title={item.title}
-              viewersCount={item.viewer_count}
-              isLoadingUserFollowedStreams={isLoadingUserFollowedStreams}
-            />
-          )}
-        />
-      </UserFollowedStreams>
+          <FlatList
+            data={
+              !isLoadingUserFollowedStreams
+                ? userFollowedStreams
+                : [
+                    { id: "1" } as UserFollowedStreamsFormatted,
+                    { id: "2" } as UserFollowedStreamsFormatted,
+                  ]
+            }
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            maxToRenderPerBatch={4}
+            initialNumToRender={4}
+            getItemLayout={(_, index) => ({
+              length: 276,
+              offset: 276 * index,
+              index,
+            })}
+            contentContainerStyle={{
+              paddingLeft: 24,
+              paddingRight: 12,
+            }}
+            renderItem={({ item }) => (
+              <UserFollowedStreamCard
+                avatarUrl={item.user_avatar_url}
+                streamer_login={item.user_login}
+                streamer_name={item.user_name}
+                thumbnailUrl={item.thumbnail_url}
+                title={item.title}
+                viewersCount={item.viewer_count}
+                isLoadingUserFollowedStreams={isLoadingUserFollowedStreams}
+              />
+            )}
+          />
+        </UserFollowedStreams>
 
-      <TopGames>
-        <TopGamesTitle>Mais assistidos do momento</TopGamesTitle>
+        <TopGames>
+          <TopGamesTitle>Mais assistidos do momento</TopGamesTitle>
 
-        <FlatList
-          data={
-            !isLoadingTopGames
-              ? topGames
-              : [
-                  { id: "1" } as TopGames,
-                  { id: "2" } as TopGames,
-                  { id: "3" } as TopGames,
-                ]
-          }
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          maxToRenderPerBatch={5}
-          initialNumToRender={5}
-          getItemLayout={(_, index) => ({
-            length: 166,
-            offset: 166 * index,
-            index,
-          })}
-          contentContainerStyle={{
-            paddingLeft: 24,
-            paddingRight: 8,
-          }}
-          renderItem={({ item }) => (
-            <TopGamesCard
-              key={item.id}
-              url={item.box_art_url}
-              name={item.name}
-              isLoadingTopGames={isLoadingTopGames}
-            />
-          )}
-        />
-      </TopGames>
+          <FlatList
+            data={
+              !isLoadingTopGames
+                ? topGames
+                : [
+                    { id: "1" } as TopGames,
+                    { id: "2" } as TopGames,
+                    { id: "3" } as TopGames,
+                  ]
+            }
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
+            getItemLayout={(_, index) => ({
+              length: 166,
+              offset: 166 * index,
+              index,
+            })}
+            contentContainerStyle={{
+              paddingLeft: 24,
+              paddingRight: 8,
+              marginBottom: 30,
+            }}
+            renderItem={({ item }) => (
+              <TopGamesCard
+                key={item.id}
+                url={item.box_art_url}
+                name={item.name}
+                isLoadingTopGames={isLoadingTopGames}
+              />
+            )}
+          />
+        </TopGames>
 
-      <Modal
-        animationType="fade"
-        visible={isLoggingOut}
-        statusBarTranslucent
-        transparent
-      >
-        <View style={{ flex: 1, backgroundColor: "rgba(14, 14, 16, 0.5)" }} />
-      </Modal>
+        <Modal
+          animationType="fade"
+          visible={isLoggingOut}
+          statusBarTranslucent
+          transparent
+        >
+          <View style={{ flex: 1, backgroundColor: "rgba(14, 14, 16, 0.5)" }} />
+        </Modal>
+      </Content>
     </Container>
   );
 }
